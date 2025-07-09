@@ -1,0 +1,13 @@
+spring:
+  application:
+    name : bookingHouse
+  datasource:
+    url : jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: busubaha
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+server:
+  port: 8091
