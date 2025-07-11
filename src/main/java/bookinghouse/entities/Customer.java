@@ -25,6 +25,7 @@ public class Customer {
     String name;
     String surname;
     String email;
+    @Enumerated(EnumType.STRING)
     Gender gender;
     String phone;
     LocalDate dateOfBirth;

@@ -20,6 +20,7 @@ public class House {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "house_gen")
     @SequenceGenerator(name = "house_gen", sequenceName = "house_seq", allocationSize = 1, initialValue = 10)
     Long id;
+    @Enumerated(EnumType.STRING)
     HouseType houseType;
     String address;
     int price;

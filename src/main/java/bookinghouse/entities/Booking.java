@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "bookings")
 @Data
@@ -22,4 +24,5 @@ public class Booking {
     Customer customer;
     @OneToOne
     House house;
+    LocalDate createdDate;
 }

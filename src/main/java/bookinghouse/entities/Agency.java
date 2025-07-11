@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,16 +23,11 @@ public class Agency {
     String name;
     String country;
     String phone;
+    @Column (unique = true)
     String email;
     @ManyToMany
-    List<Customer> customers;
+    List<Customer> customers = new ArrayList<>();
     @OneToMany (mappedBy = "agency")
-    List<House> houses;
+    List<House> houses = new ArrayList<>();
 
-    public Agency(String name, String country, String phone, String email) {
-        this.name = name;
-        this.country = country;
-        this.phone = phone;
-        this.email = email;
-    }
 }
