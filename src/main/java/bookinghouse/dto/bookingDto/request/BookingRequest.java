@@ -4,7 +4,7 @@ import bookinghouse.entities.Customer;
 import bookinghouse.entities.House;
 
 public record BookingRequest (
-        Customer customer,
-        House house
+        Long customerId,
+        Long houseId
 ){
 }
