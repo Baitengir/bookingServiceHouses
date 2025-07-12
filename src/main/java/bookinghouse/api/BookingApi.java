@@ -6,7 +6,6 @@ import bookinghouse.dto.bookingDto.response.BookingResponse;
 import bookinghouse.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController

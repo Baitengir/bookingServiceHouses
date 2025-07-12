@@ -3,6 +3,7 @@ package bookinghouse.api;
 import bookinghouse.dto.agencyDto.request.AgencyRequest;
 import bookinghouse.dto.SimpleResponse;
 import bookinghouse.dto.agencyDto.response.AgencyResponse;
+import bookinghouse.dto.houseDto.response.HouseResponse;
 import bookinghouse.service.AgencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +38,15 @@ public class AgencyApi {
     @DeleteMapping("/{id}")
     public SimpleResponse delete(@PathVariable Long id) {
         return agencyService.delete(id);
+    }
+
+    @GetMapping("/agencyHouses/{id}")
+    public List<HouseResponse> getAllHousesByAgencyId(@PathVariable Long id) {
+        return agencyService.getAllHousesByAgencyId(id);
+    }
+
+    @GetMapping("/countAgencyHouses/{id}")
+    public int getTotalHousesByAgencyId(@PathVariable Long id) {
+        return agencyService.getTotalHousesByAgencyId(id);
     }
 }

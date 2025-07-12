@@ -13,4 +13,5 @@ public interface HouseService {
     SimpleResponse update(Long id, HouseUpdateRequest houseUpdateRequest);
     SimpleResponse delete(Long id);
     List<HouseResponse> getAllFreeHouses();
+    List<HouseResponse> searchHousesByCountryAndRoom(String country, String room);
 }

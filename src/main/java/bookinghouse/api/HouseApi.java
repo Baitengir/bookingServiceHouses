@@ -44,4 +44,9 @@ public class HouseApi {
     public List<HouseResponse> getAllFreeHouses () {
         return houseService.getAllFreeHouses();
     }
+
+    @GetMapping("/search")
+    public List<HouseResponse> searchHousesByCountryAndRoom (@RequestParam String country,@RequestParam String room) {
+        return houseService.searchHousesByCountryAndRoom(country, room);
+    }
 }

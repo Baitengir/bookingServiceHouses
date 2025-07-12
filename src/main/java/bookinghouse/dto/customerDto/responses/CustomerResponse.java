@@ -1,16 +1,10 @@
 package bookinghouse.dto.customerDto.responses;
 
 import bookinghouse.enums.Gender;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class CustomerResponse {
     Long id;
     String name;
@@ -18,4 +12,16 @@ public class CustomerResponse {
     Gender gender;
     String phone;
     LocalDate dateOfBirth;
+
+    public CustomerResponse() {
+    }
+
+    public CustomerResponse(Long id, String name, String surname, Gender gender, String phone, LocalDate dateOfBirth) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.gender = gender;
+        this.phone = phone;
+        this.dateOfBirth = dateOfBirth;
+    }
 }

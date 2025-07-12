@@ -14,4 +14,5 @@ public interface AgencyService {
     SimpleResponse update(Long id, AgencyRequest agencyRequest);
     SimpleResponse delete(Long id);
     List<HouseResponse> getAllHousesByAgencyId(Long id);
+    int getTotalHousesByAgencyId(Long id);
 }

@@ -12,11 +12,19 @@ import java.util.List;
 public interface AgencyRepo extends JpaRepository<Agency, Long> {
 
     @Query(value = """
-            select h.*
-            from houses h
-            join agencies a
-            on h.agency_id = a.id
+            select new bookinghouse.dto.houseDto.response.HouseResponse(
+                        h.id, h.houseType, h.address, h.price, h.rooms, h.country, h.description
+                        )
+            from House h
+            join Agency a on h.agency.id = a.id
             where a.id = :id
-            """, nativeQuery = true)
+            """)
     List<HouseResponse> getAllHousesByAgencyId(@Param("id") Long id);
+
+    @Query(value = """
+            select count(h.id)
+            from houses h
+            where h.agency_id = :id
+            """, nativeQuery = true)
+    int getTotalHousesByAgencyId(@Param("id") Long id);
 }

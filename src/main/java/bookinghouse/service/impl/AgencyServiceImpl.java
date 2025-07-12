@@ -101,4 +101,9 @@ public class AgencyServiceImpl implements AgencyService {
         return agencyRepo.getAllHousesByAgencyId(id);
     }
 
+    @Override
+    public int getTotalHousesByAgencyId(Long id) {
+        return agencyRepo.getTotalHousesByAgencyId(id);
+    }
+
 }

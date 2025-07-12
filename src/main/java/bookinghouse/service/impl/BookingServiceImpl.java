@@ -14,7 +14,10 @@ import bookinghouse.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,6 +51,7 @@ public class BookingServiceImpl implements BookingService {
         houseInDb.setBooked(true);
         booking.setHouse(houseInDb);
         booking.setCustomer(customer);
+        customer.setTotalBookings(customer.getTotalBookings() + 1);
         booking.setCreatedDate(LocalDate.now());
 
         bookingRepo.save(booking);
@@ -61,16 +65,49 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingResponse getById(Long id) {
-        return null;
+        Booking booking = bookingRepo.findById(id).orElseThrow(
+                () -> new NullPointerException(String.format("Booking %s not found", id))
+        );
+
+        return BookingResponse.builder()
+                .id(booking.getId())
+                .houseId(booking.getHouse().getId())
+                .customerId(booking.getCustomer().getId())
+                .build();
     }
 
     @Override
     public List<BookingResponse> getAll() {
-        return List.of();
+
+        List<Booking> bookings = bookingRepo.findAll();
+        List<BookingResponse> bookingResponses = new ArrayList<>();
+        bookings.forEach(booking -> {
+            BookingResponse bookingResponse = new BookingResponse();
+            bookingResponse.setId(booking.getId());
+            bookingResponse.setHouseId(booking.getHouse().getId());
+            bookingResponse.setCustomerId(booking.getCustomer().getId());
+            bookingResponses.add(bookingResponse);
+        });
+        return bookingResponses;
     }
 
     @Override
+    @Transactional
     public SimpleResponse delete(Long id) {
-        return null;
+        Booking booking = bookingRepo.findById(id).orElseThrow(
+                () -> new NullPointerException(String.format("Booking %s not found", id))
+        );
+
+        House house = booking.getHouse();
+        house.setBooked(false);
+        house.setBooking(null);
+        houseRepo.save(house);
+
+        bookingRepo.delete(booking);
+
+        return SimpleResponse.builder()
+                .httpStatus(HttpStatus.OK)
+                .message("Booking deleted")
+                .build();
     }
 }

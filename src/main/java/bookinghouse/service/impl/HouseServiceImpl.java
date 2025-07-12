@@ -12,6 +12,7 @@ import bookinghouse.service.HouseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,24 +120,12 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public List<HouseResponse> getAllFreeHouses() {
-        List<House> houses = houseRepo.findAll();
-        List<HouseResponse> houseResponses = new ArrayList<>();
+        return houseRepo.getAllFreeHouses();
+    }
 
-        for (House house : houses) {
-
-            HouseResponse houseResponse = new HouseResponse();
-
-            houseResponse.setId(house.getId());
-            houseResponse.setHouseType(house.getHouseType());
-            houseResponse.setPrice(house.getPrice());
-            houseResponse.setRooms(house.getRooms());
-            houseResponse.setAddress(house.getAddress());
-            houseResponse.setCountry(house.getCountry());
-            houseResponse.setDescription(house.getDescription());
-
-            houseResponses.add(houseResponse);
-        }
-        return houseResponses;
+    @Override
+    public List<HouseResponse> searchHousesByCountryAndRoom(String country, String room) {
+        return houseRepo.searchHousesByCountryAndRoom(country, room);
     }
 
 }

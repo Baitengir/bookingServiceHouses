@@ -1,6 +1,7 @@
 package bookinghouse.service.impl;
 
 import bookinghouse.dto.SimpleResponse;
+import bookinghouse.dto.bookingDto.response.BookingResponse;
 import bookinghouse.dto.customerDto.requests.CustomerRequest;
 import bookinghouse.dto.customerDto.responses.CustomerResponse;
 import bookinghouse.entities.Customer;
@@ -106,5 +107,27 @@ public class CustomerServiceImpl implements CustomerService {
                 .httpStatus(HttpStatus.OK)
                 .message("Customer successfully deleted")
                 .build();
+    }
+
+    @Override
+    public List<CustomerResponse> searchByNameOrSurname(String searchName) {
+        List<CustomerResponse> customerResponses = customerRepo.searchByNameOrSurname(searchName);
+        if (customerResponses.isEmpty()) {
+            return customerRepo.searchBySurname(searchName);
+        }
+        return customerResponses;
+    }
+
+    @Override
+    public int gerTotalBookingsByCustomerId(Long id) {
+        Customer customer = customerRepo.findById(id).orElseThrow(
+                () -> new RuntimeException(String.format("Customer with id %s not found", id))
+        );
+        return customer.getTotalBookings();
+    }
+
+    @Override
+    public List<BookingResponse> getBookingsByCustomerId(Long id) {
+        return customerRepo.getBookingsByCustomerId(id);
     }
 }

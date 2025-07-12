@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 
 public class BookingResponse {
     Long id;
-    Customer customer;
-    House house;
+    Long customerId;
+    Long houseId;
 }

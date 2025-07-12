@@ -1,6 +1,7 @@
 package bookinghouse.api;
 
 import bookinghouse.dto.SimpleResponse;
+import bookinghouse.dto.bookingDto.response.BookingResponse;
 import bookinghouse.dto.customerDto.requests.CustomerRequest;
 import bookinghouse.dto.customerDto.responses.CustomerResponse;
 import bookinghouse.service.CustomerService;
@@ -37,5 +38,20 @@ public class CustomerApi {
     @DeleteMapping("/{id}")
     public SimpleResponse deleteById (@PathVariable Long id) {
         return customerService.deleteById(id);
+    }
+
+    @GetMapping("/search")
+    public List<CustomerResponse> searchByNameOrSurname (@RequestParam String name) {
+        return customerService.searchByNameOrSurname(name);
+    }
+
+    @GetMapping("/totalBooking/{id}")
+    public int getTotalBookingsByCustomerId (@PathVariable Long id) {
+        return customerService.gerTotalBookingsByCustomerId(id);
+    }
+
+    @GetMapping("/customerBookings/{id}")
+    public List<BookingResponse> getAllBookingsByCustomerId (@PathVariable Long id) {
+        return customerService.getBookingsByCustomerId(id);
     }
 }

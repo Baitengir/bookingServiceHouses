@@ -24,11 +24,13 @@ public class Customer {
     Long id;
     String name;
     String surname;
+    @Column(unique = true, nullable = false)
     String email;
     @Enumerated(EnumType.STRING)
     Gender gender;
     String phone;
     LocalDate dateOfBirth;
+    int totalBookings = 0;
     @ManyToMany(mappedBy = "customers")
     List<Agency> agencies;
     @OneToMany(mappedBy = "customer")
