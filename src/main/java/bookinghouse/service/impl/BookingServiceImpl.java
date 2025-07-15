@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +51,7 @@ public class BookingServiceImpl implements BookingService {
         booking.setHouse(houseInDb);
         booking.setCustomer(customer);
         customer.setTotalBookings(customer.getTotalBookings() + 1);
+        customer.getBookings().add(booking);
         booking.setCreatedDate(LocalDate.now());
 
         bookingRepo.save(booking);

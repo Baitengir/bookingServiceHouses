@@ -4,12 +4,16 @@ import bookinghouse.dto.SimpleResponse;
 import bookinghouse.dto.bookingDto.response.BookingResponse;
 import bookinghouse.dto.customerDto.requests.CustomerRequest;
 import bookinghouse.dto.customerDto.responses.CustomerResponse;
+import bookinghouse.entities.Booking;
 import bookinghouse.entities.Customer;
+import bookinghouse.repo.BookingRepo;
 import bookinghouse.repo.CustomerRepo;
 import bookinghouse.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +22,7 @@ import java.util.List;
 
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepo customerRepo;
+    private final BookingRepo bookingRepo;
 
     @Override
     public SimpleResponse save(CustomerRequest customerRequest) {
@@ -26,6 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setName(customerRequest.name());
         customer.setEmail(customerRequest.email());
         customer.setSurname(customerRequest.surname());
+
         if (!customerRequest.phone().matches("^\\+996\\d{9}$")) {
             throw new IllegalArgumentException("Phone number must start with +996 and contain 9 digits after it");
         }
@@ -101,7 +107,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public SimpleResponse deleteById(Long id) {
-        customerRepo.deleteById(id);
+        Customer customer = customerRepo.findById(id).orElseThrow(
+                () -> new NullPointerException(String.format("Customer with id %s not found", id))
+        );
+        for (Booking booking : customer.getBookings()) {
+            bookingRepo.delete(booking);
+        }
+        customerRepo.delete(customer);
 
         return SimpleResponse.builder()
                 .httpStatus(HttpStatus.OK)

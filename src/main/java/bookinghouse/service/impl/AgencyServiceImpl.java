@@ -83,7 +83,12 @@ public class AgencyServiceImpl implements AgencyService {
     @Override
     public SimpleResponse delete(Long id) {
         try {
-            agencyRepo.deleteById(id);
+            Agency agency = agencyRepo.findById(id).orElseThrow(
+                    () -> new NullPointerException(String.format("Agency with id %s not found", id))
+            );
+            agency.getHouses().size();
+            agencyRepo.delete(agency);
+
         } catch (Exception e) {
             return SimpleResponse.builder()
                     .httpStatus(HttpStatus.NOT_FOUND)

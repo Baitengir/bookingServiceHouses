@@ -8,7 +8,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+
+import static jakarta.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "customers")
@@ -31,8 +34,8 @@ public class Customer {
     String phone;
     LocalDate dateOfBirth;
     int totalBookings = 0;
-    @ManyToMany(mappedBy = "customers")
+    @ManyToMany(mappedBy = "customers", cascade = {DETACH, MERGE})
     List<Agency> agencies;
-    @OneToMany(mappedBy = "customer")
-    List<Booking> bookings;
+    @OneToMany(mappedBy = "customer", cascade = {REMOVE})
+    List<Booking> bookings = new ArrayList<>();
 }

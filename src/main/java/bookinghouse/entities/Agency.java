@@ -27,7 +27,7 @@ public class Agency {
     String email;
     @ManyToMany
     List<Customer> customers = new ArrayList<>();
-    @OneToMany (mappedBy = "agency")
+    @OneToMany (mappedBy = "agency", cascade = CascadeType.REMOVE)
     List<House> houses = new ArrayList<>();
 
 }
